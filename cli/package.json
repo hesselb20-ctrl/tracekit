@@ -1,0 +1,22 @@
+{
+  "name": "tracekit",
+  "version": "0.1.0",
+  "description": "Turn a recorded browser session (HAR) into an OpenAPI 3.1 spec, a typed TypeScript SDK and an MCP server.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "tracekit": "./bin/tracekit.js"
+  },
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
+    "@tracekit/core": "0.1.0",
+    "yaml": "^2.6.0"
+  }
+}
