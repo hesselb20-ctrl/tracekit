@@ -1,0 +1,10 @@
+{
+  "name": "tracekit-example-todo-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tiny local Express API used to demo tracekit.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": { "start": "node server.js" },
+  "dependencies": { "express": "^5.1.0" }
+}

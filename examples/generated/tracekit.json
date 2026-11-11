@@ -1,0 +1,550 @@
+{
+  "generator": "tracekit 0.1.0",
+  "name": "todo",
+  "naming": {
+    "source": "fallback",
+    "reason": "--no-ai"
+  },
+  "title": "todo API",
+  "baseUrl": "http://localhost:4010",
+  "operations": [
+    {
+      "id": "login",
+      "method": "POST",
+      "path": "/api/login",
+      "tag": "login",
+      "summary": "Login",
+      "description": "Login (POST /api/login). Body fields: email, password. Returns the credential that the other operations need, so call it first.",
+      "pathParams": [],
+      "queryParams": [],
+      "requestBody": {
+        "contentType": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "password": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "email",
+            "password"
+          ]
+        }
+      },
+      "responses": {
+        "200": {
+          "contentType": "application/json",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string"
+              },
+              "user": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  }
+                },
+                "required": [
+                  "email",
+                  "id",
+                  "name"
+                ]
+              }
+            },
+            "required": [
+              "token",
+              "user"
+            ]
+          }
+        }
+      },
+      "calls": 1,
+      "authenticated": false
+    },
+    {
+      "id": "getMe",
+      "method": "GET",
+      "path": "/api/me",
+      "tag": "me",
+      "summary": "Get me",
+      "description": "Get me (GET /api/me). Requires a bearer token from login.",
+      "pathParams": [],
+      "queryParams": [],
+      "responses": {
+        "200": {
+          "contentType": "application/json",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              }
+            },
+            "required": [
+              "email",
+              "id",
+              "name"
+            ]
+          }
+        }
+      },
+      "calls": 1,
+      "authenticated": true
+    },
+    {
+      "id": "listTodos",
+      "method": "GET",
+      "path": "/api/todos",
+      "tag": "todos",
+      "summary": "List todos",
+      "description": "List todos (GET /api/todos). Query parameters: done (optional). Requires a bearer token from login.",
+      "pathParams": [],
+      "queryParams": [
+        {
+          "name": "done",
+          "required": false,
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "contentType": "application/json",
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "done": {
+                  "type": "boolean"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "required": [
+                "createdAt",
+                "done",
+                "id",
+                "title"
+              ]
+            }
+          }
+        }
+      },
+      "calls": 4,
+      "authenticated": true
+    },
+    {
+      "id": "getTodo",
+      "method": "GET",
+      "path": "/api/todos/{id}",
+      "tag": "todos",
+      "summary": "Get todo",
+      "description": "Get todo (GET /api/todos/{id}). Use the id returned by listTodos or createTodo. Requires a bearer token from login.",
+      "pathParams": [
+        {
+          "name": "id",
+          "kind": "integer",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "queryParams": [],
+      "responses": {
+        "200": {
+          "contentType": "application/json",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "title": {
+                "type": "string"
+              },
+              "done": {
+                "type": "boolean"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "createdAt",
+              "done",
+              "id",
+              "title"
+            ]
+          }
+        },
+        "404": {
+          "contentType": "application/json",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "error": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "error"
+            ]
+          }
+        }
+      },
+      "calls": 4,
+      "authenticated": true
+    },
+    {
+      "id": "createTodo",
+      "method": "POST",
+      "path": "/api/todos",
+      "tag": "todos",
+      "summary": "Create todo",
+      "description": "Create todo (POST /api/todos). Body fields: title. Requires a bearer token from login.",
+      "pathParams": [],
+      "queryParams": [],
+      "requestBody": {
+        "contentType": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title"
+          ]
+        }
+      },
+      "responses": {
+        "201": {
+          "contentType": "application/json",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "title": {
+                "type": "string"
+              },
+              "done": {
+                "type": "boolean"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "createdAt",
+              "done",
+              "id",
+              "title"
+            ]
+          }
+        }
+      },
+      "calls": 2,
+      "authenticated": true
+    },
+    {
+      "id": "updateTodo",
+      "method": "PATCH",
+      "path": "/api/todos/{id}",
+      "tag": "todos",
+      "summary": "Update todo",
+      "description": "Update todo (PATCH /api/todos/{id}). Use the id returned by listTodos or createTodo. Body fields: done (optional), title (optional). Requires a bearer token from login.",
+      "pathParams": [
+        {
+          "name": "id",
+          "kind": "integer",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "queryParams": [],
+      "requestBody": {
+        "contentType": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "done": {
+              "type": "boolean"
+            },
+            "title": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "contentType": "application/json",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "title": {
+                "type": "string"
+              },
+              "done": {
+                "type": "boolean"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "createdAt",
+              "done",
+              "id",
+              "title"
+            ]
+          }
+        }
+      },
+      "calls": 2,
+      "authenticated": true
+    },
+    {
+      "id": "deleteTodo",
+      "method": "DELETE",
+      "path": "/api/todos/{id}",
+      "tag": "todos",
+      "summary": "Delete todo",
+      "description": "Delete todo (DELETE /api/todos/{id}). Use the id returned by listTodos or createTodo. Requires a bearer token from login.",
+      "pathParams": [
+        {
+          "name": "id",
+          "kind": "integer",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "queryParams": [],
+      "responses": {
+        "204": {}
+      },
+      "calls": 2,
+      "authenticated": true
+    }
+  ],
+  "auth": {
+    "scheme": {
+      "type": "bearer",
+      "header": "authorization"
+    },
+    "coverage": 0.9375,
+    "obtainedFrom": {
+      "method": "POST",
+      "path": "/api/login",
+      "field": "token"
+    }
+  },
+  "graph": {
+    "nodes": [
+      "login",
+      "getMe",
+      "listTodos",
+      "getTodo",
+      "createTodo",
+      "updateTodo",
+      "deleteTodo"
+    ],
+    "edges": [
+      {
+        "from": "login",
+        "to": "getMe",
+        "kind": "auth",
+        "count": 1
+      },
+      {
+        "from": "login",
+        "to": "listTodos",
+        "kind": "auth",
+        "count": 4
+      },
+      {
+        "from": "login",
+        "to": "getTodo",
+        "kind": "auth",
+        "count": 4
+      },
+      {
+        "from": "login",
+        "to": "createTodo",
+        "kind": "auth",
+        "count": 2
+      },
+      {
+        "from": "login",
+        "to": "updateTodo",
+        "kind": "auth",
+        "count": 2
+      },
+      {
+        "from": "login",
+        "to": "deleteTodo",
+        "kind": "auth",
+        "count": 2
+      },
+      {
+        "from": "listTodos",
+        "to": "getTodo",
+        "kind": "data",
+        "count": 3,
+        "via": "[].id -> path.id"
+      },
+      {
+        "from": "listTodos",
+        "to": "updateTodo",
+        "kind": "data",
+        "count": 1,
+        "via": "[].id -> path.id"
+      },
+      {
+        "from": "listTodos",
+        "to": "deleteTodo",
+        "kind": "data",
+        "count": 1,
+        "via": "[].id -> path.id"
+      },
+      {
+        "from": "createTodo",
+        "to": "getTodo",
+        "kind": "data",
+        "count": 1,
+        "via": "id -> path.id"
+      },
+      {
+        "from": "createTodo",
+        "to": "updateTodo",
+        "kind": "data",
+        "count": 1,
+        "via": "id -> path.id"
+      },
+      {
+        "from": "createTodo",
+        "to": "deleteTodo",
+        "kind": "data",
+        "count": 1,
+        "via": "id -> path.id"
+      },
+      {
+        "from": "login",
+        "to": "getMe",
+        "kind": "order",
+        "count": 1
+      },
+      {
+        "from": "getMe",
+        "to": "listTodos",
+        "kind": "order",
+        "count": 1
+      },
+      {
+        "from": "listTodos",
+        "to": "getTodo",
+        "kind": "order",
+        "count": 1
+      },
+      {
+        "from": "listTodos",
+        "to": "deleteTodo",
+        "kind": "order",
+        "count": 1
+      },
+      {
+        "from": "getTodo",
+        "to": "listTodos",
+        "kind": "order",
+        "count": 1
+      },
+      {
+        "from": "getTodo",
+        "to": "createTodo",
+        "kind": "order",
+        "count": 1
+      },
+      {
+        "from": "getTodo",
+        "to": "updateTodo",
+        "kind": "order",
+        "count": 1
+      },
+      {
+        "from": "createTodo",
+        "to": "getTodo",
+        "kind": "order",
+        "count": 1
+      },
+      {
+        "from": "updateTodo",
+        "to": "listTodos",
+        "kind": "order",
+        "count": 1
+      },
+      {
+        "from": "deleteTodo",
+        "to": "getTodo",
+        "kind": "order",
+        "count": 1
+      }
+    ]
+  },
+  "redaction": {
+    "enabled": true,
+    "total": 23,
+    "byKind": {
+      "email": 6,
+      "password": 1,
+      "token": 16
+    }
+  },
+  "stats": {
+    "entries": 17,
+    "apiCalls": 16,
+    "skippedOrigins": []
+  }
+}
