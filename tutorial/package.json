@@ -1,0 +1,28 @@
+{
+  "name": "tracekit-tutorial",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Remotion project for the tracekit tutorial video and README stills.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render:frames": "remotion render src/index.ts Tutorial out/frames --sequence --image-format=png --concurrency=4",
+    "encode": "ffmpeg -y -framerate 30 -i out/frames/element-%04d.png -vf scale=out_color_matrix=bt709:out_range=tv,format=yuv420p -c:v libx264 -preset slow -crf 18 -color_primaries bt709 -color_trc bt709 -colorspace bt709 -color_range tv -movflags +faststart ../media/tutorial.mp4",
+    "render:video": "npm run render:frames && npm run encode",
+    "render:stills": "remotion still src/index.ts Hero ../media/hero.png && remotion still src/index.ts Clustering ../media/clustering.png",
+    "gif": "node scripts/make-gif.mjs",
+    "svg": "node scripts/make-svgs.ts"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/google-fonts": "^4.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.0",
+    "typescript": "^5.7.0"
+  }
+}
