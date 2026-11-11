@@ -6,6 +6,10 @@ Tracekit turns a recorded browser session (a HAR file) into an OpenAPI 3.1 spec,
 
 ![tracekit: HAR in, OpenAPI, SDK and MCP server out](media/hero.png)
 
+A 76-second walkthrough:
+
+https://github.com/user-attachments/assets/abb68638-b323-44f5-b2b1-3fde84187e95
+
 ## Why
 
 Plenty of useful apps have no public API, no spec and no SDK, including ones you built yourself. Their web client still talks to a perfectly good JSON API; it is just undocumented. Writing the spec by hand from the Network tab is slow and goes stale.
@@ -166,7 +170,7 @@ Credentials are read from the environment (`TODO_TOKEN` here) or obtained throug
 
 ![Tutorial preview](media/preview.gif)
 
-Full video: [media/tutorial.mp4](media/tutorial.mp4). It is built in code with Remotion; the source is in [`tutorial/`](tutorial).
+The playable version is at the top of this page; the file is [media/tutorial.mp4](media/tutorial.mp4). It is built in code with Remotion; the source is in [`tutorial/`](tutorial).
 
 ## Repository layout
 
