@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 676" width="1200" height="676" role="img" aria-labelledby="t d">
+<title id="t">Generated folder structure</title>
+<desc id="d">my-tool contains openapi.yaml, tracekit.json, an sdk folder with index.ts, client.ts and types.ts, and an mcp-server folder with package.json, index.js and README.md.</desc>
+<rect width="1200" height="676" rx="24" fill="#0B0F14"/>
+<text x="48" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="36" font-weight="600" fill="#E6EDF3" text-anchor="start">What tracekit build writes</text>
+<text x="48" y="104" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="start">tracekit build session.har --out ./my-tool</text>
+<rect x="48" y="114" width="1104" height="534" rx="14" fill="#121923" stroke="#243345" stroke-width="2"/>
+<text x="64" y="167" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="24" font-weight="700" fill="#3DDC97" text-anchor="start">my-tool/</text>
+<path d="M 76 182 V 228 M 76 205 H 98" stroke="#243345" stroke-width="2" fill="none"/>
+<text x="108" y="213" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="24" font-weight="400" fill="#E6EDF3" text-anchor="start">openapi.yaml</text>
+<text x="1120" y="212" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="end">OpenAPI 3.1 spec</text>
+<path d="M 76 228 V 274 M 76 251 H 98" stroke="#243345" stroke-width="2" fill="none"/>
+<text x="108" y="259" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="24" font-weight="400" fill="#E6EDF3" text-anchor="start">tracekit.json</text>
+<text x="1120" y="258" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="end">endpoints, auth, call graph</text>
+<path d="M 76 274 V 320 M 76 297 H 98" stroke="#243345" stroke-width="2" fill="none"/>
+<text x="108" y="305" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="24" font-weight="700" fill="#3DDC97" text-anchor="start">sdk/</text>
+<text x="1120" y="304" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="end">typed TypeScript SDK</text>
+<path d="M 76 320 V 366" stroke="#243345" stroke-width="2" fill="none"/>
+<path d="M 120 320 V 366 M 120 343 H 142" stroke="#243345" stroke-width="2" fill="none"/>
+<text x="152" y="351" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="24" font-weight="400" fill="#E6EDF3" text-anchor="start">index.ts</text>
+<path d="M 76 366 V 412" stroke="#243345" stroke-width="2" fill="none"/>
+<path d="M 120 366 V 412 M 120 389 H 142" stroke="#243345" stroke-width="2" fill="none"/>
+<text x="152" y="397" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="24" font-weight="400" fill="#E6EDF3" text-anchor="start">client.ts</text>
+<path d="M 76 412 V 458" stroke="#243345" stroke-width="2" fill="none"/>
+<path d="M 120 412 V 435 M 120 435 H 142" stroke="#243345" stroke-width="2" fill="none"/>
+<text x="152" y="443" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="24" font-weight="400" fill="#E6EDF3" text-anchor="start">types.ts</text>
+<path d="M 76 458 V 481 M 76 481 H 98" stroke="#243345" stroke-width="2" fill="none"/>
+<text x="108" y="489" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="24" font-weight="700" fill="#3DDC97" text-anchor="start">mcp-server/</text>
+<text x="1120" y="488" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="end">ready-to-run MCP server</text>
+<path d="M 120 504 V 550 M 120 527 H 142" stroke="#243345" stroke-width="2" fill="none"/>
+<text x="152" y="535" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="24" font-weight="400" fill="#E6EDF3" text-anchor="start">package.json</text>
+<path d="M 120 550 V 596 M 120 573 H 142" stroke="#243345" stroke-width="2" fill="none"/>
+<text x="152" y="581" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="24" font-weight="400" fill="#E6EDF3" text-anchor="start">index.js</text>
+<path d="M 120 596 V 619 M 120 619 H 142" stroke="#243345" stroke-width="2" fill="none"/>
+<text x="152" y="627" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="24" font-weight="400" fill="#E6EDF3" text-anchor="start">README.md</text>
+</svg>

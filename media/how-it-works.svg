@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="1200" height="520" role="img" aria-labelledby="t d">
+<title id="t">How tracekit works</title>
+<desc id="d">Pipeline: a HAR file is redacted, requests are clustered into templated endpoints, schemas, auth and call order are inferred, and an OpenAPI spec, a TypeScript SDK and an MCP server are generated.</desc>
+<rect width="1200" height="520" rx="24" fill="#0B0F14"/>
+<text x="48" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="36" font-weight="600" fill="#E6EDF3" text-anchor="start">How it works</text>
+<text x="48" y="104" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="start">One recorded session in, three artifacts out. Secrets are removed before anything is written.</text>
+<rect x="48" y="243" width="176" height="150" rx="14" fill="#121923" stroke="#243345" stroke-width="2"/>
+<rect x="68" y="267" width="34" height="6" rx="3" fill="#5AA9FF"/>
+<text x="68" y="313" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#E6EDF3" text-anchor="start">HAR</text>
+<text x="68" y="346" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="start">recorded</text>
+<text x="68" y="373" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="start">session</text>
+<path d="M 232 318 H 247" stroke="#8B9BB0" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M 239 310 L 248 318 L 239 326" stroke="#8B9BB0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="256" y="243" width="176" height="150" rx="14" fill="#121923" stroke="#243345" stroke-width="2"/>
+<rect x="276" y="267" width="34" height="6" rx="3" fill="#FF6B6B"/>
+<text x="276" y="313" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#E6EDF3" text-anchor="start">Redact</text>
+<text x="276" y="346" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="start">tokens, keys,</text>
+<text x="276" y="373" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="start">cookies, email</text>
+<path d="M 440 318 H 455" stroke="#8B9BB0" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M 447 310 L 456 318 L 447 326" stroke="#8B9BB0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="464" y="243" width="176" height="150" rx="14" fill="#121923" stroke="#243345" stroke-width="2"/>
+<rect x="484" y="267" width="34" height="6" rx="3" fill="#F5B94A"/>
+<text x="484" y="313" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#E6EDF3" text-anchor="start">Cluster</text>
+<text x="484" y="346" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="19" font-weight="400" fill="#8B9BB0" text-anchor="start">/users/123</text>
+<text x="484" y="373" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="19" font-weight="400" fill="#F5B94A" text-anchor="start">/users/{id}</text>
+<path d="M 648 318 H 663" stroke="#8B9BB0" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M 655 310 L 664 318 L 655 326" stroke="#8B9BB0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="672" y="243" width="176" height="150" rx="14" fill="#121923" stroke="#243345" stroke-width="2"/>
+<rect x="692" y="267" width="34" height="6" rx="3" fill="#3DDC97"/>
+<text x="692" y="313" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="27" font-weight="600" fill="#E6EDF3" text-anchor="start">Infer</text>
+<text x="692" y="346" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="start">schemas, auth,</text>
+<text x="692" y="373" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="start">call order</text>
+<path d="M 856 318 C 873 318, 873 200, 880 200" stroke="#3DDC97" stroke-opacity="0.8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+<path d="M 879 192 L 888 200 L 879 208" stroke="#3DDC97" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="898" y="152" width="254" height="96" rx="14" fill="#18222F" stroke="#243345" stroke-width="2"/>
+<text x="920" y="194" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="24" font-weight="600" fill="#3DDC97" text-anchor="start">openapi.yaml</text>
+<text x="920" y="224" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="start">OpenAPI 3.1 spec</text>
+<path d="M 856 318 C 873 318, 873 318, 880 318" stroke="#3DDC97" stroke-opacity="0.8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+<path d="M 879 310 L 888 318 L 879 326" stroke="#3DDC97" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="898" y="270" width="254" height="96" rx="14" fill="#18222F" stroke="#243345" stroke-width="2"/>
+<text x="920" y="312" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="24" font-weight="600" fill="#3DDC97" text-anchor="start">sdk/</text>
+<text x="920" y="342" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="start">TypeScript SDK</text>
+<path d="M 856 318 C 873 318, 873 436, 880 436" stroke="#3DDC97" stroke-opacity="0.8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+<path d="M 879 428 L 888 436 L 879 444" stroke="#3DDC97" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="898" y="388" width="254" height="96" rx="14" fill="#18222F" stroke="#243345" stroke-width="2"/>
+<text x="920" y="430" font-family="ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace" font-size="24" font-weight="600" fill="#3DDC97" text-anchor="start">mcp-server/</text>
+<text x="920" y="460" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="start">MCP server</text>
+<text x="48" y="486" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#8B9BB0" text-anchor="start">Operation names and tool descriptions are written by Claude, from redacted data only.</text>
+</svg>
