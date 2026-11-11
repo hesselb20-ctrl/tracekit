@@ -1,0 +1,30 @@
+{
+  "name": "tracekit-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Turn a recorded browser session (HAR) into an OpenAPI spec, a typed SDK and an MCP server.",
+  "license": "MIT",
+  "type": "module",
+  "workspaces": [
+    "core",
+    "cli",
+    "examples/todo-api"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -b core cli",
+    "test": "vitest run",
+    "example:record": "node examples/record.mjs",
+    "example:build": "tracekit build examples/session.har --out examples/generated --name todo --no-ai --keep-har",
+    "media:svg": "node tutorial/scripts/make-svgs.ts",
+    "example:mcp": "npm install --prefix examples/generated/mcp-server --no-audit --no-fund && node examples/try-mcp.mjs",
+    "example:api": "node examples/todo-api/server.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

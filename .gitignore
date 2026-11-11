@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.env
+.DS_Store
+tutorial/out/
+examples/generated/mcp-server/node_modules/
+examples/generated/mcp-server/package-lock.json
