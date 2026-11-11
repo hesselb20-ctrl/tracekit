@@ -176,6 +176,10 @@ export async function nameWithClaude(
       return { source: "fallback", reason: `unreadable model response (${err.message})`, model };
     }
     // Missing credentials surface here as a plain Error on the first request.
-    return { source: "fallback", reason: (err as Error).message.split("\n")[0], model };
+    const message = (err as Error).message.split("\n")[0] ?? "unknown error";
+    const reason = /authentication method/i.test(message)
+      ? "no Anthropic credentials found; set ANTHROPIC_API_KEY"
+      : message;
+    return { source: "fallback", reason, model };
   }
 }
