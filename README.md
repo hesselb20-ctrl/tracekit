@@ -71,6 +71,15 @@ replays the calls your browser made, with credentials you supply.
    folder.
 
 <picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/scene-dark.gif">
+  <img src=".github/assets/scene-light.gif" width="100%" alt="Three stacked layers in 3D: the 17 recorded entries of the example session as tiles in time order at the bottom, lighting one by one and linked to the 7 endpoints they cluster into in the middle, with arcs for the call graph including the token issued by POST /api/login, and the three generated outputs on top.">
+</picture>
+
+<sub>The committed example analysis: entries from `examples/session.har`, endpoints and call-graph edges
+from `examples/generated/tracekit.json`. The API is the local demo todo API, recorded by a script, not a
+real app. The first entry is the HTML page, which tracekit drops.</sub>
+
+<picture>
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-04-dark.svg">
   <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-04-light.svg">
   <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-04-dark.svg">
