@@ -1,212 +1,236 @@
-# tracekit
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/hero-mobile-dark.svg">
+  <source media="(max-width: 600px)" srcset=".github/assets/hero-mobile-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/hero-dark.svg">
+  <img src=".github/assets/hero-light.svg" width="100%" alt="tracekit. HAR recording in. OpenAPI spec, SDK and MCP server out. Prototype, tested on one local demo API.">
+</picture>
 
-**Record a session. Ship an agent tool.**
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-01-dark.svg">
+  <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-01-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-01-dark.svg">
+  <img src=".github/assets/rule-01-light.svg" width="100%" alt="01 What it is">
+</picture>
 
-Tracekit turns a recorded browser session (a HAR file) into an OpenAPI 3.1 spec, a typed TypeScript SDK and a ready-to-run MCP server.
+tracekit reads a recording of a browser session, the HAR file you export from the Network tab, and
+works out the API the web app was calling. It writes that API down as an OpenAPI 3.1 spec, a typed
+TypeScript client and an MCP server, so a developer or an AI agent can call it directly.
 
-![tracekit: HAR in, OpenAPI, SDK and MCP server out](media/hero.png)
+It is a prototype, version 0.1.0. It has been tested on one small todo API that runs locally and was
+recorded by a script. It is not on npm.
 
-A 76-second walkthrough:
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-02-dark.svg">
+  <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-02-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-02-dark.svg">
+  <img src=".github/assets/rule-02-light.svg" width="100%" alt="02 Why it exists">
+</picture>
 
-https://github.com/user-attachments/assets/abb68638-b323-44f5-b2b1-3fde84187e95
+**The problem.** Many web apps have no public API, no spec and no SDK, including apps you built
+yourself. Their front end still talks to a JSON API. That API is just undocumented.
 
-## Why
+**What was missing.** Writing a spec by hand from the Network tab is slow and goes stale. tracekit
+reads traffic you already have and derives the endpoints, schemas, auth and call order from it. It
+removes secrets before it looks at anything.
 
-Plenty of useful apps have no public API, no spec and no SDK, including ones you built yourself. Their web client still talks to a perfectly good JSON API; it is just undocumented. Writing the spec by hand from the Network tab is slow and goes stale.
+**Who it is for.** Developers who want a spec, a client or an agent tool for their own apps, or for
+apps whose terms allow automated access. It is not a way around access controls. The generated code
+replays the calls your browser made, with credentials you supply.
 
-Tracekit reads the traffic you already have and works out:
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-03-dark.svg">
+  <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-03-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-03-dark.svg">
+  <img src=".github/assets/rule-03-light.svg" width="100%" alt="03 How it works">
+</picture>
 
-- **Endpoints**: raw URLs are clustered into templates, so `/api/todos/17` and `/api/todos/42` become `GET /api/todos/{id}`.
-- **Schemas**: request and response bodies are merged into JSON Schema, with required fields, nullability and string formats.
-- **Auth**: bearer token, cookie or API key, and which call issued the credential.
-- **Call order**: which operations depend on which, such as "log in first" or "this id comes from that list".
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/flow-mobile-dark.svg">
+  <source media="(max-width: 600px)" srcset=".github/assets/flow-mobile-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/flow-dark.svg">
+  <img src=".github/assets/flow-light.svg" width="100%" alt="Data flow. Read the recording: a HAR file is parsed and only fetch, XHR and JSON calls are kept, secrets are redacted first, and the busiest origin is chosen. Analyse: raw paths are clustered into templates, samples are merged into JSON Schema, and auth and call order are detected. Generate: openapi.yaml with tracekit.json, a typed TypeScript SDK, and an MCP server with one tool per operation.">
+</picture>
 
-Then it writes the three things an agent or a developer needs: a spec, a client and an MCP server.
+1. **Parse.** The HAR is read and pages, static assets, preflights and HEAD requests are dropped.
+   What remains are JSON calls, fetch and XHR calls, and mutations such as a `DELETE` that returns 204.
+2. **Redact.** Auth headers, cookies, JWTs, known key formats, sensitive field names and emails are
+   swapped for stable placeholders such as `REDACTED_TOKEN_1` and `user1@example.com`. The same secret
+   always gets the same placeholder, so tracekit can still see that the token from `/login` is the one
+   sent later. This runs before any analysis, file write or model call.
+3. **Pick an origin.** The origin with the most calls is analysed. `--origin` picks another.
+4. **Cluster.** Path segments that look like identifiers (integers, UUIDs, long hex, ULIDs, dates,
+   opaque tokens) become parameters, so `/api/todos/17` and `/api/todos/42` become
+   `/api/todos/{id}`. Word-like slugs collapse only with at least four distinct siblings by default.
+5. **Infer.** Request and response samples per endpoint are merged into one JSON Schema. Auth is
+   detected as bearer token, API key or cookie, along with the call that issued it. A call graph
+   records which call fed an id or a credential into a later one.
+6. **Name.** Operations get deterministic names such as `listTodos`. Optionally, Claude rewrites the
+   names and descriptions from a summary of shapes only: methods, path templates, field names and
+   types, no recorded values. `--no-ai` skips this step.
+7. **Generate.** `openapi.yaml`, `tracekit.json`, `sdk/` and `mcp-server/` are written to the output
+   folder.
 
-## How it works
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-04-dark.svg">
+  <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-04-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-04-dark.svg">
+  <img src=".github/assets/rule-04-light.svg" width="100%" alt="04 Capabilities">
+</picture>
 
-![HAR, then redact, cluster, infer, then OpenAPI, SDK and MCP](media/how-it-works.svg)
+What the code does today.
 
-1. **Redact.** Tokens, cookies, API keys, passwords and emails are replaced with stable placeholders (`REDACTED_TOKEN_1`, `user1@example.com`). This happens first, before anything is analysed, written to disk or sent to a model.
-2. **Cluster.** Path segments that look like identifiers (integers, UUIDs, long hex, ULIDs, dates, opaque tokens) become parameters. Sibling paths that differ in one position collapse too, once there are enough of them.
-3. **Infer.** Samples per endpoint are merged into one schema. Auth is detected from the headers, and a call graph is built from recording order and from values that flow from one response into a later request.
-4. **Generate.** `openapi.yaml`, `sdk/` and `mcp-server/`. If an Anthropic API key is available, Claude (`claude-fable-5-2`) names the operations and writes the tool descriptions from the redacted shapes. Without one, deterministic names are used.
+- **HAR parsing.** Accepts HAR 1.2 JSON, keeps API calls, drops assets and preflights. `core/src/har.ts`
+- **Redaction.** Pattern-based, on by default, stable placeholders. Also available on its own as
+  `tracekit redact`. `core/src/redact.ts`
+- **Path templating.** Shape rules plus sibling counting, tunable with `--min-distinct`.
+  `core/src/template.ts`, `core/src/endpoints.ts`
+- **Schema inference.** Merges samples into JSON Schema with required fields, nullability and string
+  formats. `core/src/schema.ts`
+- **Auth detection.** Bearer, API key in header or query, cookie, and the call that issued it.
+  `core/src/auth.ts`
+- **Call graph.** Order, data and auth edges between operations. `core/src/sequence.ts`
+- **OpenAPI output.** OpenAPI 3.1 YAML with security schemes. `cli/src/openapi.ts`
+- **TypeScript SDK.** A typed client with one method per operation. A login response's token is kept on
+  the client. `cli/src/sdk.ts`
+- **MCP server.** A stdio server with one tool per operation. Credentials come from an environment
+  variable or the login tool and stay in the server process: the login result shows
+  `[stored by the MCP server]` instead of the token. `cli/src/mcp.ts`
+- **Optional Claude naming.** Falls back to deterministic names on any failure and says why.
+  `cli/src/naming.ts`
+- **Tests.** 73 Vitest tests over templating, schemas, redaction and the generators. `core/test`, `cli/test`
 
-![Raw URLs collapsing into templated endpoints](media/clustering.png)
+Known limits, from the repository's own documentation and the code:
 
-## Responsible use
+- You only get what you recorded. Endpoints, fields and errors that did not occur are missing. A field
+  present in every sample is marked required, except in `PATCH` bodies.
+- JSON over HTTP only. Form posts, multipart, GraphQL, WebSockets, SSE and gRPC-web are not modelled.
+- Redaction is heuristic. A secret in an unusual field under an innocent name can get through.
+- Auth is replayed, not re-implemented. OAuth redirects, token refresh, CSRF tokens, request signing
+  and MFA are not supported.
+- One origin per build.
+- The Claude naming path has never been run against the live Anthropic API. It is covered by tests
+  with a stubbed client, and the committed example uses deterministic names.
+- The only recording it has been tested on is `examples/session.har`, made by a script against the
+  local demo API, not a browser export from a real app.
 
-Tracekit is for **your own applications, and for applications whose terms allow automated access**. It is a documentation and tooling generator, not a way around access controls.
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-05-dark.svg">
+  <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-05-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-05-dark.svg">
+  <img src=".github/assets/rule-05-light.svg" width="100%" alt="05 Quick start">
+</picture>
 
-- Record only sessions you are authorised to record, with accounts that are yours.
-- Read the target's terms of service first. Many services prohibit automated access or reverse engineering; if they do, do not point tracekit at them.
-- Tracekit does not bypass authentication, rate limits, CAPTCHAs or bot detection, and the generated code does not try to. It replays the same calls your browser made, with credentials you supply.
-- A HAR file is sensitive. It can hold session tokens, personal data and private content. Redaction is on by default and covers the common cases, but it is pattern-based and cannot recognise every secret. Review a HAR before sharing it, and prefer `tracekit redact` output over the raw file.
-- Respect the target's rate limits when you run the generated SDK or MCP server.
-
-## Install
-
-Requires Node 22 or newer. Tracekit is not on npm yet, so install from source:
+Requires Node 22 or newer. The commands below were run on Windows 11 with Node 26.13 and npm 11.20,
+in Git Bash. macOS and Linux were not tested. tracekit is not on npm, so install from source.
 
 ```bash
-git clone https://github.com/hesselb20-ctrl/tracekit
-```
-
-```bash
+git clone https://github.com/hesselb20-ctrl/tracekit.git
 cd tracekit
-```
-
-```bash
-npm install
-```
-
-```bash
+npm ci
 npm run build
 ```
 
-`npx tracekit --help` now works inside the repo.
-
-## Quickstart with the example API
-
-The repo ships a tiny Express todo API, a HAR recorded against it, and the generated output in [`examples/generated`](examples/generated).
-
-Generate a tool from the recording:
+Run the tests. Expect `4 passed` test files and `73 passed` tests.
 
 ```bash
-npx tracekit build examples/session.har --out ./my-tool --name todo
+npm test
 ```
 
-```text
-http://localhost:4010  (16 API calls out of 17 entries)
-Redacted 23 secret values (6 email, 1 password, 16 token)
-
-Endpoints
-  POST /api/login         login  (1 call)
-  GET /api/me             getMe  (1 call, auth)
-  GET /api/todos          listTodos  (4 calls, auth)
-  GET /api/todos/{id}     getTodo  (4 calls, auth)
-  POST /api/todos         createTodo  (2 calls, auth)
-  PATCH /api/todos/{id}   updateTodo  (2 calls, auth)
-  DELETE /api/todos/{id}  deleteTodo  (2 calls, auth)
-
-Auth: bearer token, issued by POST /api/login (token)
-```
-
-![Generated folder structure](media/output-tree.svg)
-
-Start the example API in one terminal:
+Inspect the committed example recording. Writes nothing. Expect 16 API calls out of 17 entries,
+23 redacted values, 7 endpoints and `Auth: bearer token, issued by POST /api/login (token)`.
 
 ```bash
-npm run example:api
+node cli/bin/tracekit.js inspect examples/session.har
 ```
 
-In another, install the generated server's one dependency and run a real MCP round trip against it:
+Generate the spec, SDK and MCP server without calling Claude. Expect
+`Names and descriptions: deterministic (--no-ai)` and `Wrote 9 files`. Apart from line endings, the
+output matched the committed [`examples/generated`](examples/generated) exactly.
+
+```bash
+node cli/bin/tracekit.js build examples/session.har --out ./my-tool --name todo --no-ai --keep-har
+```
+
+Run a real MCP round trip. This installs the generated server's one dependency from npm, starts the
+demo API on port 4010, connects an MCP client over stdio and calls the tools. Expect 7 tools, an
+error before login, the token shown as `[stored by the MCP server]`, then create, update and delete,
+and `MCP round trip OK`.
 
 ```bash
 npm run example:mcp
 ```
 
-To record your own session: open DevTools, go to the Network tab, use the app, then choose "Save all as HAR with content". Run `tracekit inspect session.har` to see what was found before generating anything.
-
-### Commands
-
-| Command | What it does |
-|---|---|
-| `tracekit build <har> --out <dir>` | Generate `openapi.yaml`, `tracekit.json`, `sdk/` and `mcp-server/`. |
-| `tracekit inspect <har>` | Print endpoints, auth and call order. Writes nothing. |
-| `tracekit redact <har> --out <file>` | Write a redacted copy of a HAR. |
-
-Useful flags: `--name`, `--origin <url>` when the recording spans several hosts, `--min-distinct <n>` to tune slug clustering, `--keep-har` to also write the redacted HAR, `--no-ai`, `--model <id>`.
-
-### Claude naming
-
-Set `ANTHROPIC_API_KEY` and tracekit asks Claude to name operations and write tool descriptions. Only a compact summary of the redacted analysis is sent: methods, path templates, field names and types. Recorded values are not sent. If there is no key, the request fails, or the model declines, tracekit falls back to deterministic names and says why. `--no-redact` disables the model call entirely, so unredacted traffic never leaves your machine.
-
-### Using the SDK
-
-```ts
-import { createClient } from "./my-tool/sdk/index.js";
-
-const todo = createClient({ baseUrl: "http://localhost:4010" });
-await todo.login({ email: "ada@example.com", password: "tracekit-demo" }); // token is kept on the client
-const open = await todo.listTodos({ done: false });
-const created = await todo.createTodo({ title: "Ship it" });
-await todo.updateTodo(created.id, { done: true });
-```
-
-## MCP config
-
-Install the server's dependency once:
+Write a redacted copy of a HAR. Expect `Redacted 23 secret values`.
 
 ```bash
-npm install --prefix ./my-tool/mcp-server
+node cli/bin/tracekit.js redact examples/session.har --out ./clean.har
 ```
 
-Add it to Claude Code:
+Not run here: naming with Claude (needs `ANTHROPIC_API_KEY`; drop `--no-ai`), and adding the generated
+server to an MCP client such as Claude Code. Registration steps are in the generated
+[`examples/generated/mcp-server/README.md`](examples/generated/mcp-server/README.md). To record your
+own session, open DevTools, use the app with the Network tab open, and choose "Save all as HAR with
+content".
 
-```bash
-claude mcp add todo -- node /absolute/path/to/my-tool/mcp-server/index.js
-```
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-06-dark.svg">
+  <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-06-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-06-dark.svg">
+  <img src=".github/assets/rule-06-light.svg" width="100%" alt="06 Stack, status, roadmap">
+</picture>
 
-Or put it in `.mcp.json` (the same shape works for Claude Desktop's `claude_desktop_config.json`):
+**Stack**
 
-```json
-{
-  "mcpServers": {
-    "todo": {
-      "command": "node",
-      "args": ["/absolute/path/to/my-tool/mcp-server/index.js"],
-      "env": {
-        "TODO_BASE_URL": "http://localhost:4010"
-      }
-    }
-  }
-}
-```
-
-Credentials are read from the environment (`TODO_TOKEN` here) or obtained through the generated `login` tool. Either way they stay inside the server process: when a login response contains a token, the server stores it and replaces it in the tool result, so it does not enter the model's context.
-
-## Tutorial
-
-![Tutorial preview](media/preview.gif)
-
-The playable version is at the top of this page; the file is [media/tutorial.mp4](media/tutorial.mp4). It is built in code with Remotion; the source is in [`tutorial/`](tutorial).
-
-## Repository layout
-
-| Path | Contents |
+| Layer | Built with |
 |---|---|
-| `core/` | HAR parser, redaction, path templating, schema inference, auth detection, call graph. No dependencies. |
-| `cli/` | The `tracekit` command and the OpenAPI, SDK and MCP generators. |
-| `examples/` | Todo API, recorded HAR, generated output, MCP round-trip script. |
-| `tutorial/` | Remotion project for the video and the README images. |
-| `media/` | Rendered video, GIF and images. |
+| Core analysis | TypeScript, Node 22+, no runtime dependencies |
+| CLI | TypeScript, `yaml`, `@anthropic-ai/sdk` for optional naming |
+| Generated MCP server | Plain JavaScript, `@modelcontextprotocol/sdk`, stdio transport |
+| Demo API | Express 5, in memory |
+| Tests | Vitest |
+| Tutorial video | Remotion, separate project in `tutorial/` |
 
-Tests: `npm test` (Vitest) covers path templating, schema inference, redaction and the generators.
+**Status**
 
-## Limitations
+| Part | State |
+|---|---|
+| Core pipeline and CLI | Built. 73 tests pass. Run here on the demo recording only. |
+| Generated SDK | Generated; tests check its text output. Never compiled or called against an API here. |
+| Generated MCP server | Round trip against the local demo API passes. |
+| Claude naming | Tested with a stubbed client only. Never run against the live API. |
+| Real-world recordings | None tested. The only HAR is script-recorded. |
+| Distribution | Not on npm. No CI. |
 
-- **You only get what you recorded.** Endpoints, fields and error responses that did not occur in the session are not in the output. A field present in every sample is marked required even if the API treats it as optional (PATCH bodies are the exception: all fields are optional).
-- **JSON over HTTP only.** Form posts, multipart uploads, GraphQL (one endpoint, many operations), WebSockets, SSE and gRPC-web are not modelled.
-- **Redaction is heuristic.** It covers auth headers, cookies, known key formats, JWTs, emails and sensitive field names. A secret in an unusual field under an innocent name can get through. Review before sharing.
-- **Auth is replayed, not re-implemented.** Bearer tokens, API keys and cookies are supported. OAuth redirects, token refresh, CSRF tokens, request signing and MFA are not.
-- **Slug clustering needs evidence.** Identifier-shaped segments are always templated; word-like slugs need at least four distinct siblings (`--min-distinct`), and plain lowercase usernames may stay literal.
-- **One origin per build.** The busiest origin is analysed; use `--origin` to choose another.
-- **Claude naming has not been run against the live API yet.** No API key was available when this repo was built, so that path is covered by tests with a stubbed client, and the committed example uses the deterministic names.
-- **Not on npm.** Install from source for now.
+**Roadmap.** Items the previous README listed as planned. None are built.
 
-## Roadmap
+1. Publish `tracekit` and `@tracekit/core` to npm.
+2. Merge several HAR files into one analysis.
+3. Form and multipart bodies; GraphQL operation splitting.
+4. Token refresh and CSRF handling in the generated clients.
+5. Shared `components/schemas` in the OpenAPI output, with detected entity names.
+6. Enum and pagination detection.
+7. A Python SDK target.
+8. Streamable HTTP transport for the generated MCP server.
+9. A browser extension that records and redacts in one step.
 
-- Publish `tracekit` and `@tracekit/core` to npm
-- Merge several HAR files into one analysis
-- Form and multipart bodies; GraphQL operation splitting
-- Token refresh and CSRF handling in the generated clients
-- Shared `components/schemas` in the OpenAPI output, with detected entity names
-- Enum and pagination detection
-- Python SDK target
-- Streamable HTTP transport for the generated MCP server
-- A browser extension that records and redacts in one step
+**Documents**
 
-## License
+| File | Contents |
+|---|---|
+| [`examples/README.md`](examples/README.md) | The demo API, how the recording was made, how to regenerate the output |
+| [`examples/generated/`](examples/generated) | Committed output of `tracekit build` on the demo recording |
+| [`tutorial/README.md`](tutorial/README.md) | The Remotion project that renders the video |
+| [`media/tutorial.mp4`](media/tutorial.mp4?raw=true) | 76-second walkthrough video, about 3.8 MB download |
 
-[MIT](LICENSE)
+**Responsible use.** Record only sessions you are authorised to record, with your own accounts. Read
+the target's terms first; many prohibit automated access. A HAR file can hold session tokens and
+personal data. Review it before sharing, and prefer `tracekit redact` output over the raw file.
+
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-07-dark.svg">
+  <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-07-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-07-dark.svg">
+  <img src=".github/assets/rule-07-light.svg" width="100%" alt="07 License">
+</picture>
+
+MIT. See [`LICENSE`](LICENSE).
