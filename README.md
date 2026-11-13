@@ -1,9 +1,10 @@
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/hero-mobile-dark.svg">
-  <source media="(max-width: 600px)" srcset=".github/assets/hero-mobile-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/hero-dark.svg">
-  <img src=".github/assets/hero-light.svg" width="100%" alt="tracekit. HAR recording in. OpenAPI spec, SDK and MCP server out. Prototype, tested on one local demo API.">
-</picture>
+# tracekit
+
+HAR recording in. OpenAPI spec, SDK and MCP server out.
+
+<img src=".github/assets/figure.webp" width="100%" alt="3D chart. Seventeen recorded web requests sit on a time axis with their 23 redacted secrets blacked out. They lift into seven coloured endpoint lanes, with the login call feeding the others. Three columns then show what was generated: 7 operations, 7 SDK methods, 7 tools.">
+
+<sub>From `examples/session.har` and `examples/generated/tracekit.json`. One local demo API, recorded by a script; the generated SDK was not compiled.</sub>
 
 <picture>
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-01-dark.svg">
@@ -44,13 +45,6 @@ replays the calls your browser made, with credentials you supply.
   <img src=".github/assets/rule-03-light.svg" width="100%" alt="03 How it works">
 </picture>
 
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/flow-mobile-dark.svg">
-  <source media="(max-width: 600px)" srcset=".github/assets/flow-mobile-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/flow-dark.svg">
-  <img src=".github/assets/flow-light.svg" width="100%" alt="Data flow. Read the recording: a HAR file is parsed and only fetch, XHR and JSON calls are kept, secrets are redacted first, and the busiest origin is chosen. Analyse: raw paths are clustered into templates, samples are merged into JSON Schema, and auth and call order are detected. Generate: openapi.yaml with tracekit.json, a typed TypeScript SDK, and an MCP server with one tool per operation.">
-</picture>
-
 1. **Parse.** The HAR is read and pages, static assets, preflights and HEAD requests are dropped.
    What remains are JSON calls, fetch and XHR calls, and mutations such as a `DELETE` that returns 204.
 2. **Redact.** Auth headers, cookies, JWTs, known key formats, sensitive field names and emails are
@@ -69,15 +63,6 @@ replays the calls your browser made, with credentials you supply.
    types, no recorded values. `--no-ai` skips this step.
 7. **Generate.** `openapi.yaml`, `tracekit.json`, `sdk/` and `mcp-server/` are written to the output
    folder.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/scene-dark.gif">
-  <img src=".github/assets/scene-light.gif" width="100%" alt="Three stacked layers in 3D: the 17 recorded entries of the example session as tiles in time order at the bottom, lighting one by one and linked to the 7 endpoints they cluster into in the middle, with arcs for the call graph including the token issued by POST /api/login, and the three generated outputs on top.">
-</picture>
-
-<sub>The committed example analysis: entries from `examples/session.har`, endpoints and call-graph edges
-from `examples/generated/tracekit.json`. The API is the local demo todo API, recorded by a script, not a
-real app. The first entry is the HTML page, which tracekit drops.</sub>
 
 <picture>
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-04-dark.svg">
