@@ -49,6 +49,10 @@ replays the calls your browser made, with credentials you supply.
 7. **Generate.** `openapi.yaml`, `tracekit.json`, `sdk/` and `mcp-server/` are written to the output
    folder.
 
+<img src=".github/assets/figure-how.webp" width="100%" alt="Sixteen recorded calls shrink their number segments into one {id} chip, group into seven coloured endpoints with dots for call counts, then 44 field chips fill four bars to a mark at 11.">
+
+<sub>One scripted recording of a local demo API (<code>examples/session.har</code>); templates and schema as written to <code>tracekit.json</code> and <code>openapi.yaml</code>.</sub>
+
 ## Capabilities
 
 What the code does today.
@@ -86,6 +90,10 @@ Known limits, from the repository's own documentation and the code:
   with a stubbed client, and the committed example uses deterministic names.
 - The only recording it has been tested on is `examples/session.har`, made by a script against the
   local demo API, not a browser export from a real app.
+
+<img src=".github/assets/figure-more.webp" width="100%" alt="Dots mark each of 23 secrets by where it sat in the recording and thread into three placeholder chips; recorded values then stop at a wall while seven shapes pass towards a dashed box marked not run.">
+
+<sub>Placeholders counted in <code>session.redacted.har</code>. The naming payload was built and checked locally; the live naming call has never been run.</sub>
 
 ## Quick start
 
