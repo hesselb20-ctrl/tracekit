@@ -6,12 +6,7 @@ HAR recording in. OpenAPI spec, SDK and MCP server out.
 
 <sub>From `examples/session.har` and `examples/generated/tracekit.json`. One local demo API, recorded by a script; the generated SDK was not compiled.</sub>
 
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-01-dark.svg">
-  <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-01-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-01-dark.svg">
-  <img src=".github/assets/rule-01-light.svg" width="100%" alt="01 What it is">
-</picture>
+## What it is
 
 tracekit reads a recording of a browser session, the HAR file you export from the Network tab, and
 works out the API the web app was calling. It writes that API down as an OpenAPI 3.1 spec, a typed
@@ -20,12 +15,7 @@ TypeScript client and an MCP server, so a developer or an AI agent can call it d
 It is a prototype, version 0.1.0. It has been tested on one small todo API that runs locally and was
 recorded by a script. It is not on npm.
 
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-02-dark.svg">
-  <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-02-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-02-dark.svg">
-  <img src=".github/assets/rule-02-light.svg" width="100%" alt="02 Why it exists">
-</picture>
+## Why it exists
 
 **The problem.** Many web apps have no public API, no spec and no SDK, including apps you built
 yourself. Their front end still talks to a JSON API. That API is just undocumented.
@@ -38,12 +28,7 @@ removes secrets before it looks at anything.
 apps whose terms allow automated access. It is not a way around access controls. The generated code
 replays the calls your browser made, with credentials you supply.
 
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-03-dark.svg">
-  <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-03-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-03-dark.svg">
-  <img src=".github/assets/rule-03-light.svg" width="100%" alt="03 How it works">
-</picture>
+## How it works
 
 1. **Parse.** The HAR is read and pages, static assets, preflights and HEAD requests are dropped.
    What remains are JSON calls, fetch and XHR calls, and mutations such as a `DELETE` that returns 204.
@@ -64,12 +49,7 @@ replays the calls your browser made, with credentials you supply.
 7. **Generate.** `openapi.yaml`, `tracekit.json`, `sdk/` and `mcp-server/` are written to the output
    folder.
 
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-04-dark.svg">
-  <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-04-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-04-dark.svg">
-  <img src=".github/assets/rule-04-light.svg" width="100%" alt="04 Capabilities">
-</picture>
+## Capabilities
 
 What the code does today.
 
@@ -107,12 +87,7 @@ Known limits, from the repository's own documentation and the code:
 - The only recording it has been tested on is `examples/session.har`, made by a script against the
   local demo API, not a browser export from a real app.
 
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-05-dark.svg">
-  <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-05-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-05-dark.svg">
-  <img src=".github/assets/rule-05-light.svg" width="100%" alt="05 Quick start">
-</picture>
+## Quick start
 
 Requires Node 22 or newer. The commands below were run on Windows 11 with Node 26.13 and npm 11.20,
 in Git Bash. macOS and Linux were not tested. tracekit is not on npm, so install from source.
@@ -166,12 +141,7 @@ server to an MCP client such as Claude Code. Registration steps are in the gener
 own session, open DevTools, use the app with the Network tab open, and choose "Save all as HAR with
 content".
 
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-06-dark.svg">
-  <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-06-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-06-dark.svg">
-  <img src=".github/assets/rule-06-light.svg" width="100%" alt="06 Stack, status, roadmap">
-</picture>
+## Stack, status, roadmap
 
 **Stack**
 
@@ -220,11 +190,6 @@ content".
 the target's terms first; many prohibit automated access. A HAR file can hold session tokens and
 personal data. Review it before sharing, and prefer `tracekit redact` output over the raw file.
 
-<picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset=".github/assets/rule-mobile-07-dark.svg">
-  <source media="(max-width: 600px)" srcset=".github/assets/rule-mobile-07-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/rule-07-dark.svg">
-  <img src=".github/assets/rule-07-light.svg" width="100%" alt="07 License">
-</picture>
+## License
 
 MIT. See [`LICENSE`](LICENSE).
